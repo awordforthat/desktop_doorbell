@@ -34,7 +34,7 @@
         <entry file="file://$PROJECT_DIR$/src/credentials/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
-              <caret line="0" column="43" selection-start-line="0" selection-start-column="43" selection-end-line="0" selection-end-column="43" />
+              <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -358,7 +358,7 @@
     <entry file="file://$PROJECT_DIR$/src/credentials/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
-          <caret line="0" column="43" selection-start-line="0" selection-start-column="43" selection-end-line="0" selection-end-column="43" />
+          <caret line="0" column="9" selection-start-line="0" selection-start-column="9" selection-end-line="0" selection-end-column="43" />
           <folding />
         </state>
       </provider>

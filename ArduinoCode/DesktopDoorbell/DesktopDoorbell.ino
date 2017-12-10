@@ -28,7 +28,7 @@ bool current = false;
 bool last = false;
 
 // set up the 'digital' feed
-AdafruitIO_Feed *digital = io.feed("digital");
+AdafruitIO_Feed *digital = io.feed("desktop-doorbell");
 
 void setup() {
 
