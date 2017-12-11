@@ -1,19 +1,29 @@
-
 from datetime import datetime, timedelta
 import requests
 import json
+import credentials
+from win10toast import ToastNotifier
 
+
+toaster = ToastNotifier()
 feed_url = "https://io.adafruit.com/api/v2/EmilyCharles/feeds/desktop-doorbell/data"
 last_check = datetime.now()
+notify = False
 
 
-querystring = {"start_time":"2017-12-10T23:39:24Z","end_time":"2017-12-10T23:45:24Z"}
-
+# set up standard headers
 headers = {
-    'X-AIO-KEY': "04f40a9872f740fc8f5b26e1ee4afa8d",
+    'X-AIO-KEY': credentials.AIOkey,
     'Cache-Control': "no-cache",
     'Postman-Token': "b8bd05cf-5468-aec9-482d-495be736f563"
     }
+
+
+def parse_server_response(response_text):
+    global notify
+    for item in json.loads(response_text):
+        if item["value"] == "1":
+            notify = True;
 
 
 def get_server_data(start_time, end_time):
@@ -24,10 +34,8 @@ def get_server_data(start_time, end_time):
     payload_str = "&".join("%s=%s" % (k, v) for k, v in querystring.items())
     response = requests.request("GET",  feed_url, headers=headers, params=payload_str)
 
-
-
-    print(response.url)
-    print(response.text)
+    if response.text  != "[]":
+        parse_server_response(response.text)
 
 
 def get_time_range(time_now):
@@ -37,7 +45,7 @@ def get_time_range(time_now):
 def datetime_to_server_string(time):
     return time.strftime('%Y-%m-%dT%H:%M:%SZ')
 
-CHECK_INTERVAL =  2.1 # just slightly longer than the 2s interval that we get for free. Let's not get blocked out!
+CHECK_INTERVAL = 2
 DATETIME_INTERVAL  = timedelta(seconds = CHECK_INTERVAL)
 
 
@@ -47,3 +55,10 @@ while True:
         time_range = get_time_range(datetime.utcnow())
         get_server_data(time_range[0], time_range[1])
 
+    if notify:
+        notify = False
+        print("Got a message!")
+        toaster.show_toast("Look up!", "Someone wants to talk to you.",
+                           icon_path="custom.ico",
+                           duration=5
+                           )
